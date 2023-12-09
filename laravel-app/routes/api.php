@@ -30,6 +30,6 @@ Route::get('/contact', [ContactController::class, 'getContacts']);
 
 Route::get('/contact/{id}', [ContactController::class, 'getAcontact']);
 
-Route::put('/contact/{id}/update', [ContactController::class, 'updateContact']);
+Route::put('/contact/{id}', [ContactController::class, 'updateContact']);
 
-Route::delete('/contact/{id}/delete', [ContactController::class, 'deleteContact']);
+Route::delete('/contact/{id}', [ContactController::class, 'deleteContact']);
