@@ -28,8 +28,8 @@ Route::post('/contact/create', [ContactController::class, 'createContact']);
 
 Route::get('/contact', [ContactController::class, 'getContacts']);
 
-Route::get('/contact/{id}', [ContactController::class, 'getAcontact']);
+Route::get('/contact/{contact}', [ContactController::class, 'getAcontact']);
 
-Route::put('/contact/{id}', [ContactController::class, 'updateContact']);
+Route::put('/contact/{contact}', [ContactController::class, 'updateContact']);
 
-Route::delete('/contact/{id}', [ContactController::class, 'deleteContact']);
+Route::delete('/contact/{contact}', [ContactController::class, 'deleteContact']);

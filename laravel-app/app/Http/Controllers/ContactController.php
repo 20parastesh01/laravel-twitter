@@ -27,10 +27,8 @@ class ContactController extends Controller
         return "contact created";
     }
 
-    public function getAcontact($id)
+    public function getAcontact(Contact $contact)
     {
-        $contact = $this->findContactCheck($id);
-        $contact->get();
         return $contact;
     }
 
@@ -40,9 +38,8 @@ class ContactController extends Controller
         return $contact;
     }
 
-    public function updateContact(Request $request, $id)
+    public function updateContact(Contact $contact, Request $request)
     {
-        $contact = $this->findContactCheck($id);
         $contact->update([
             'first_name'=> $request->firstname,
             'last_name'=> $request->lastname,
@@ -51,9 +48,9 @@ class ContactController extends Controller
         return $contact;
     }
 
-    public function deleteContact($id)
+    public function deleteContact(Contact $contact)
     {
-        $this->findContactCheck($id)->delete();
+        $contact->delete();
         return "contact deleted";
     }
 }
