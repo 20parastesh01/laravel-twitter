@@ -5,40 +5,41 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Http\Requests\StoreContactRequest;
+use App\Http\Resources\ContactResource;
 
 class ContactController extends Controller
 {
     public function createContact(StoreContactRequest $request)
     {
-        $validated = $request->validated();
-        Contact::create([
-            'first_name' => $validated['firstname'],
-            'last_name' => $validated['lastname'],
-            'email' => $validated['email']
+        $validatedContact = $request->validated();
+        $contact = Contact::create([
+            'first_name' => $validatedContact['firstname'],
+            'last_name' => $validatedContact['lastname'],
+            'email' => $validatedContact['email']
         ]);
-        return "contact created";
+        return new ContactResource($contact);
     }
 
     public function getAcontact(Contact $contact)
     {
-        return $contact;
+        return new ContactResource($contact);
     }
 
     public function getContacts()
     {
-        $contact = Contact::all();
-        return $contact;
+        $contacts = Contact::all();
+        return ContactResource::collection($contacts);
     }
 
     public function updateContact(StoreContactRequest $request, Contact $contact)
     {
-        $validated = $request->validated();
+        $validatedContact = $request->validated();
         $contact->update([
-            'first_name' => $validated['firstname'],
-            'last_name' => $validated['lastname'],
-            'email' => $validated['email']
+            'first_name' => $validatedContact['firstname'],
+            'last_name' => $validatedContact['lastname'],
+            'email' => $validatedContact['email']
         ]);
-        return $contact;
+        return new ContactResource($contact);
     }
 
     public function deleteContact(Contact $contact)
