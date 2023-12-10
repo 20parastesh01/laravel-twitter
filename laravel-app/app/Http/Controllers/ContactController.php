@@ -4,25 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Http\Requests\StoreContactRequest;
 
 class ContactController extends Controller
 {
-    public function findContactCheck($id)
+    public function createContact(StoreContactRequest $request)
     {
-        $contact = Contact::find($id);
-        if(!$contact)
-        {
-            return "contact not found";
-        }
-        return $contact;
-    }
-
-    public function createContact(Request $request)
-    {
+        $validated = $request->validated();
         Contact::create([
-            'first_name' => $request->firstname,
-            'last_name' => $request->lastname,
-            'email' => $request->email
+            'first_name' => $validated['firstname'],
+            'last_name' => $validated['lastname'],
+            'email' => $validated['email']
         ]);
         return "contact created";
     }
@@ -38,12 +30,13 @@ class ContactController extends Controller
         return $contact;
     }
 
-    public function updateContact(Contact $contact, Request $request)
+    public function updateContact(StoreContactRequest $request, Contact $contact)
     {
+        $validated = $request->validated();
         $contact->update([
-            'first_name'=> $request->firstname,
-            'last_name'=> $request->lastname,
-            'email'=> $request->email
+            'first_name' => $validated['firstname'],
+            'last_name' => $validated['lastname'],
+            'email' => $validated['email']
         ]);
         return $contact;
     }
