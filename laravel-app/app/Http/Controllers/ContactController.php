@@ -11,11 +11,10 @@ class ContactController extends Controller
 {
     public function createContact(StoreContactRequest $request)
     {
-        $validatedContact = $request->validated();
         $contact = Contact::create([
-            'first_name' => $validatedContact['firstname'],
-            'last_name' => $validatedContact['lastname'],
-            'email' => $validatedContact['email']
+            'first_name' => $request -> firstname,
+            'last_name' => $request -> lastname,
+            'email' => $request -> email
         ]);
         return new ContactResource($contact);
     }
@@ -33,11 +32,10 @@ class ContactController extends Controller
 
     public function updateContact(StoreContactRequest $request, Contact $contact)
     {
-        $validatedContact = $request->validated();
         $contact->update([
-            'first_name' => $validatedContact['firstname'],
-            'last_name' => $validatedContact['lastname'],
-            'email' => $validatedContact['email']
+            'first_name' => $request -> firstname,
+            'last_name' => $request -> lastname,
+            'email' => $request -> email
         ]);
         return new ContactResource($contact);
     }
