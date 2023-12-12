@@ -25,15 +25,13 @@ Route::get('/test', [TestController::class, 'test']);
 
 Route::get('/pow/{number}', [TestController::class, 'powNumber']);
 
-Route::post('/contact/create', [ContactController::class, 'create']);
-
-Route::get('/contact', [ContactController::class, 'index']);
-
-Route::get('/contact/{contact}', [ContactController::class, 'show']);
-
-Route::put('/contact/{contact}', [ContactController::class, 'update']);
-
-Route::delete('/contact/{contact}', [ContactController::class, 'destroy']);
+Route::prefix('/contact')->group(function () {
+    Route::post('/create', [ContactController::class, 'create']);
+    Route::get('', [ContactController::class, 'index']);
+    Route::get('/{contact}', [ContactController::class, 'show']);
+    Route::put('/{contact}', [ContactController::class, 'update']);
+    Route::delete('/{contact}', [ContactController::class, 'destroy']);
+});
 
 Route::prefix('/users')->group(function () {
     Route::post('/create', [UserController::class, 'create']);
