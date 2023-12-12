@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -38,4 +39,11 @@ Route::prefix('/users')->group(function () {
     Route::get('/{user}', [UserController::class, 'show']);
     Route::put('/{user}', [UserController::class, 'update']);
     Route::delete('/{user}', [UserController::class, 'destroy']);
+});
+
+Route::prefix('/post')->group(function () {
+    Route::post('/{user}/create', [PostController::class, 'create']);
+    Route::get('/{user}', [PostController::class, 'show']);
+    Route::put('/{post}', [PostController::class, 'update']);
+    Route::delete('/{post}', [PostController::class, 'destroy']);
 });
