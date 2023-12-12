@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,9 @@ use App\Http\Controllers\ContactController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::get('/test', [TestController::class, 'test']);
 
@@ -33,3 +34,10 @@ Route::get('/contact/{contact}', [ContactController::class, 'show']);
 Route::put('/contact/{contact}', [ContactController::class, 'update']);
 
 Route::delete('/contact/{contact}', [ContactController::class, 'destroy']);
+
+Route::prefix('/users')->group(function () {
+    Route::post('/create', [UserController::class, 'create']);
+    Route::get('/{user}', [UserController::class, 'show']);
+    Route::put('/{user}', [UserController::class, 'update']);
+    Route::delete('/{user}', [UserController::class, 'destroy']);
+});
