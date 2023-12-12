@@ -2,47 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Contact;
+use App\Domains\Contacts\Services\ContactService;
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Resources\ContactResource;
 
+
 class ContactController extends Controller
 {
-    public function createContact(StoreContactRequest $request)
+    public function __construct(private ContactService $contactService)
     {
-        $contact = Contact::create([
-            'first_name' => $request -> firstname,
-            'last_name' => $request -> lastname,
-            'email' => $request -> email
-        ]);
-        return new ContactResource($contact);
     }
 
-    public function getAcontact(Contact $contact)
+    public function create(StoreContactRequest $request)
     {
-        return new ContactResource($contact);
+        return new ContactResource($this->contactService->createContact($request));
     }
 
-    public function getContacts()
+    public function show($contact)
     {
-        $contacts = Contact::all();
-        return ContactResource::collection($contacts);
+        return new ContactResource($this->contactService->getAcontact($contact));
     }
 
-    public function updateContact(StoreContactRequest $request, Contact $contact)
+    public function index()
     {
-        $contact->update([
-            'first_name' => $request -> firstname,
-            'last_name' => $request -> lastname,
-            'email' => $request -> email
-        ]);
-        return new ContactResource($contact);
+        return ContactResource::collection($this->contactService->getContacts());
     }
 
-    public function deleteContact(Contact $contact)
+    public function update(StoreContactRequest $request, $contact)
     {
-        $contact->delete();
+        return new ContactResource($this->contactService->updateContact($request, $contact));
+    }
+
+    public function destroy($contact)
+    {
+        $this->contactService->deleteContact($contact);
         return "contact deleted";
     }
 }

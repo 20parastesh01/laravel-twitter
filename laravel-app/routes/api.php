@@ -24,12 +24,12 @@ Route::get('/test', [TestController::class, 'test']);
 
 Route::get('/pow/{number}', [TestController::class, 'powNumber']);
 
-Route::post('/contact/create', [ContactController::class, 'createContact']);
+Route::post('/contact/create', [ContactController::class, 'create']);
 
-Route::get('/contact', [ContactController::class, 'getContacts']);
+Route::get('/contact', [ContactController::class, 'index']);
 
-Route::get('/contact/{contact}', [ContactController::class, 'getAcontact']);
+Route::get('/contact/{contact}', [ContactController::class, 'show']);
 
-Route::put('/contact/{contact}', [ContactController::class, 'updateContact']);
+Route::put('/contact/{contact}', [ContactController::class, 'update']);
 
-Route::delete('/contact/{contact}', [ContactController::class, 'deleteContact']);
+Route::delete('/contact/{contact}', [ContactController::class, 'destroy']);
