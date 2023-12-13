@@ -24,14 +24,14 @@ class PostController extends Controller
         return PostResource::collection($this->postService->getPosts($user));
     }
 
-    public function update(StorePostRequest $request, Post $post)
+    public function update(StorePostRequest $request, User $user, Post $post)
     {
-        return new PostResource($this->postService->updatePost($request, $post));
+        return new PostResource($this->postService->updatePost($request, $user, $post));
     }
 
-    public function destroy(Post $post)
+    public function destroy(User $user, Post $post)
     {
-        $this->postService->deletePost($post);
+        $this->postService->deletePost($user, $post);
         return "post deleted";
     }
 }

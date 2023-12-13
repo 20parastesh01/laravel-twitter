@@ -18,16 +18,19 @@ class PostService
         return $post;
     }
 
-    public function getPosts(User $user)
+    public function getPosts($user)
     {
         if(!$user){
-            return "post not found";
+            return "user not found";
         }
         return $user->posts()->get();
     }
 
-    public function updatePost($request, Post $post)
+    public function updatePost($request, $user, $post)
     {
+        if(!$user){
+            return "user not found";
+        }
         if(!$post){
             return "post not found";
         }
@@ -37,8 +40,11 @@ class PostService
         return $post;
     }
 
-    public function deletePost(Post $post)
+    public function deletePost($user, $post)
     {
+        if(!$user){
+            return "user not found";
+        }
         if(!$post){
             return "post not found";
         }
