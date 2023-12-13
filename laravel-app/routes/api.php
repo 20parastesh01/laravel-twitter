@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
@@ -47,6 +48,15 @@ Route::prefix('/users')->group(function () {
             Route::prefix('/{post}')->group(function () { 
                 Route::put('', [PostController::class, 'update']);
                 Route::delete('', [PostController::class, 'destroy']);
+
+                Route::prefix('/comments')->group(function () {
+                    Route::get('', [CommentController::class, 'show']);
+                    Route::post('/create', [CommentController::class, 'create']);  
+                    Route::prefix('/{comment}')->group(function () { 
+                        Route::put('', [CommentController::class, 'update']); 
+                        Route::delete('', [CommentController::class, 'destroy']);
+                    });                
+                });
             });
         });
     });
