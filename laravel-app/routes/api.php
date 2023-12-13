@@ -36,14 +36,18 @@ Route::prefix('/contact')->group(function () {
 
 Route::prefix('/users')->group(function () {
     Route::post('/create', [UserController::class, 'create']);
-    Route::get('/{user}', [UserController::class, 'show']);
-    Route::put('/{user}', [UserController::class, 'update']);
-    Route::delete('/{user}', [UserController::class, 'destroy']);
-});
+    Route::prefix('/{user}')->group(function () {
+        Route::get('', [UserController::class, 'show']);
+        Route::put('', [UserController::class, 'update']);
+        Route::delete('', [UserController::class, 'destroy']);
 
-Route::prefix('/post')->group(function () {
-    Route::post('/{user}/create', [PostController::class, 'create']);
-    Route::get('/{user}', [PostController::class, 'show']);
-    Route::put('/{post}', [PostController::class, 'update']);
-    Route::delete('/{post}', [PostController::class, 'destroy']);
+        Route::prefix('/posts')->group(function () {
+            Route::get('', [PostController::class, 'show']);
+            Route::post('/create', [PostController::class, 'create']);
+            Route::prefix('/{post}')->group(function () { 
+                Route::put('', [PostController::class, 'update']);
+                Route::delete('', [PostController::class, 'destroy']);
+            });
+        });
+    });
 });
