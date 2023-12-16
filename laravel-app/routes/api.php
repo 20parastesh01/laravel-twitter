@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -55,6 +56,15 @@ Route::prefix('/users')->group(function () {
                     Route::prefix('/{comment}')->group(function () { 
                         Route::put('', [CommentController::class, 'update']); 
                         Route::delete('', [CommentController::class, 'destroy']);
+                    });                
+                });
+
+                Route::prefix('/tags')->group(function () {
+                    Route::get('', [TagController::class, 'show']);
+                    Route::post('/create', [TagController::class, 'create']);  
+                    Route::prefix('/{tag}')->group(function () { 
+                        Route::put('', [TagController::class, 'update']); 
+                        Route::delete('', [TagController::class, 'destroy']);
                     });                
                 });
             });
