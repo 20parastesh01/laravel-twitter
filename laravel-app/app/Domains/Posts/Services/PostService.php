@@ -2,9 +2,6 @@
 
 namespace App\Domains\Posts\Services;
 
-use App\Domains\Posts\Models\Post;
-use App\Domains\Users\Models\User;
-
 class PostService
 {
     public function createPost($request, $user)

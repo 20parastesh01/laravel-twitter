@@ -8,6 +8,7 @@ use App\Domains\Posts\Services\CommentService;
 use App\Domains\Users\Models\User;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\CommentResource;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -15,23 +16,27 @@ class CommentController extends Controller
     {
     }
 
-    public function create(StoreCommentRequest $request, User $user, Post $post)
+    public function create(StoreCommentRequest $request, Post $post)
     {
+        $user = Auth::user();
         return new CommentResource($this->commentService->createComment($request, $user, $post));
     }
 
-    public function show(User $user, Post $post)
+    public function show(Post $post)
     {
+        $user = Auth::user();
         return CommentResource::collection($this->commentService->getPostComments($user, $post));
     }
 
-    public function update(StoreCommentRequest $request, User $user, Post $post, Comment $comment)
+    public function update(StoreCommentRequest $request, Post $post, Comment $comment)
     {
+        $user = Auth::user();
         return new CommentResource($this->commentService->updateComment($request, $user, $post, $comment));
     }
 
-    public function destroy(User $user, Post $post, Comment $comment)
+    public function destroy(Post $post, Comment $comment)
     {
+        $user = Auth::user();
         $this->commentService->deleteComment($user, $post, $comment);
         return "comment deleted";
     }

@@ -8,6 +8,7 @@ use App\Domains\Posts\Services\TagService;
 use App\Domains\Users\Models\User;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Resources\TagResource;
+use Illuminate\Support\Facades\Auth;
 
 class TagController extends Controller
 {
@@ -15,28 +16,27 @@ class TagController extends Controller
     {
     }
 
-    // public function create()
-    // {
-    //     return 'test';
-    // }
-
-    public function create(StoreTagRequest $request, User $user, Post $post)
+    public function create(StoreTagRequest $request, Post $post)
     {
+        $user = Auth::user();
         return new TagResource($this->tagService->createTag($request, $user, $post));
     }
 
-    public function show(User $user, Post $post)
+    public function show(Post $post)
     {
+        $user = Auth::user();
         return TagResource::collection($this->tagService->getPostTags($user, $post));
     }
 
-    public function update(StoreTagRequest $request, User $user, Post $post, Tag $tag)
+    public function update(StoreTagRequest $request, Post $post, Tag $tag)
     {
+        $user = Auth::user();
         return new TagResource($this->tagService->updateTag($request, $user, $post, $tag));
     }
 
-    public function destroy(User $user, Post $post, Tag $tag)
+    public function destroy(Post $post, Tag $tag)
     {
+        $user = Auth::user();
         $this->tagService->deletetag($user, $post, $tag);
         return "tag deleted";
     }

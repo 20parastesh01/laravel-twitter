@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Domains\Users\Models\User;
 use App\Domains\Users\Services\UserService;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -16,21 +16,25 @@ class UserController extends Controller
 
     public function create(StoreUserRequest $request)
     {
-        return new UserResource($this->userService->signup($request));
+        $userWithToken = $this->userService->signup($request);
+        return [new UserResource($userWithToken['user']), 'token' => $userWithToken['token'],];
     }
 
-    public function show(User $user)
+    public function show()
     {
-        return UserResource::collection($this->userService->getAUser($user));
+        $user = Auth::user();
+        return new UserResource($this->userService->getAUser($user));
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request)
     {
+        $user = Auth::user();
         return new UserResource($this->userService->updateUser($request, $user));
     }
 
-    public function destroy(User $user)
+    public function destroy()
     {
+        $user = Auth::user();
         $this->userService->deleteUser($user);
         return "user deleted";
     }

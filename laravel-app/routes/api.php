@@ -38,7 +38,7 @@ Route::prefix('/contact')->group(function () {
 
 Route::prefix('/users')->group(function () {
     Route::post('/create', [UserController::class, 'create']);
-    Route::prefix('/{user}')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
         Route::get('', [UserController::class, 'show']);
         Route::put('', [UserController::class, 'update']);
         Route::delete('', [UserController::class, 'destroy']);
