@@ -31,6 +31,7 @@ RUN rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update || (sleep 5 && apt-get update) || (sleep 5 && apt-get update) || apt-get update
 
+RUN mkdir -p /run/php && chmod -R 755 /run/php
 RUN mkdir -p /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -38,4 +39,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 WORKDIR /var/www/html
 COPY . /var/www/html/
 
+ADD deploy/docker/php/custom.ini /etc/php/${PHP_VERSION}/fpm/conf.d/custom.ini
+ADD deploy/docker/php/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
+ADD deploy/docker/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 RUN composer install
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
