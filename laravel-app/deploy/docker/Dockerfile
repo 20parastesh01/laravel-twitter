@@ -39,5 +39,3 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 RUN composer install
-
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
