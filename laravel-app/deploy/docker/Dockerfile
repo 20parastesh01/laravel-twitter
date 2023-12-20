@@ -2,16 +2,28 @@ FROM ubuntu:latest
 
 ENV PHP_VERSION 8.2
 
+RUN ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo Europe/London > /etc/timezone
+
 RUN apt-get update
 RUN apt-get install -y software-properties-common curl
 
 RUN LC_ALL=C.UTF-8 apt-add-repository ppa:ondrej/php -y
 
 RUN apt-get update && apt-get install -y \
-    php${PHP_VERSION} \
+    php${PHP_VERSION}-mcrypt \
+    php${PHP_VERSION}-dom \
     php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-cli \
+    php${PHP_VERSION}-mbstring \
     php${PHP_VERSION}-mysql \
-    git
+    php${PHP_VERSION}-redis \
+    php${PHP_VERSION}-fpm \
+    php${PHP_VERSION}-zip \
+    php${PHP_VERSION}-decimal \
+    supervisor \
+    zip unzip \
+    git \
+    nano
 
 RUN apt-get autoremove -y
 RUN apt-get clean
